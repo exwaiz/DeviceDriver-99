@@ -34,3 +34,25 @@ TEST_F(FlashTestFixture, ReadTest_Different) {
 	DeviceDriver dd(&flashMock);
 	EXPECT_THROW(dd.read(0xA), ReadFailException);
 }
+
+TEST_F(FlashTestFixture, WriteTest_Success) {
+	FlashMock flashMock;
+	EXPECT_CALL(flashMock, write(0xA, 0xC)).WillOnce(Return());
+	EXPECT_CALL(flashMock, read(0xA)).WillOnce(Return(0xFF))
+															.WillOnce(Return(0xFF))
+															.WillOnce(Return(0xFF))
+															.WillOnce(Return(0xFF))
+															.WillOnce(Return(0xFF))
+															.WillRepeatedly(Return(0xC));
+	DeviceDriver dd(&flashMock);
+	dd.write(0xA, 0xC);
+	const char ret = dd.read(0xA);
+	EXPECT_EQ(ret, 0xC);
+}
+TEST_F(FlashTestFixture, WriteTest_Fail) {
+	FlashMock flashMock;
+	EXPECT_CALL(flashMock, read(0xA)).WillRepeatedly(Return(0xC));
+	DeviceDriver dd(&flashMock);
+	EXPECT_THROW(dd.write(0xA, 0xC), WriteFailException);
+	
+}
