@@ -56,3 +56,17 @@ TEST_F(FlashTestFixture, WriteTest_Fail) {
 	EXPECT_THROW(dd.write(0xA, 0xC), WriteFailException);
 	
 }
+
+TEST_F(FlashTestFixture, AppReadAndPrint) {
+	FlashMock flashMock;
+	DeviceDriver dd(&flashMock);
+	EXPECT_CALL(flashMock, read(0xF)).WillRepeatedly(Return(0x1));
+	EXPECT_CALL(flashMock, read(0x10)).WillRepeatedly(Return(0x2));
+	EXPECT_CALL(flashMock, read(0x11)).WillRepeatedly(Return(0x3));
+	EXPECT_CALL(flashMock, read(0x12)).WillRepeatedly(Return(0x4));
+	EXPECT_CALL(flashMock, read(0x13)).WillRepeatedly(Return(0x5));
+
+	dd.ReadAndPrint(0xF, 0x13);
+
+}
+

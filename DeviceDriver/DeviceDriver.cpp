@@ -1,6 +1,7 @@
 #include "DeviceDriver.h"
 #include <windows.h>
 #include <exception>
+#include <iostream>
 #include <stdexcept>
 using namespace std;
 
@@ -24,6 +25,15 @@ DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware)
 	: m_hardware(hardware) {
 }
 
+
+
+int DeviceDriver::ReadAndPrint(unsigned char startAddr, unsigned char endAddr){
+	
+	for (unsigned char addr = startAddr; addr<=endAddr; addr++ )	{
+		cout << read(addr) << endl;
+	}
+	return 0;
+}
 
 #define READ_ATTEMPT_COUNT 5
 
@@ -56,5 +66,4 @@ void DeviceDriver::write(long address, int data) {
 	if (read(address) != 0xFF)
 		throw WriteFailException();
 	m_hardware->write(address, (unsigned char)data);
-	
 }
