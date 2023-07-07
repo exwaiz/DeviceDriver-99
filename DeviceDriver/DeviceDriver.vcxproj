@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="DeviceDriver.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SamsungFlash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceDriver.h" />
