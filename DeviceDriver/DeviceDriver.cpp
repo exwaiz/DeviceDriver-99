@@ -34,7 +34,12 @@ int DeviceDriver::ReadAndPrint(unsigned char startAddr, unsigned char endAddr){
 	}
 	return 0;
 }
+void DeviceDriver::WriteAll(unsigned char value) {
 
+	for (unsigned char addr = 0x00; addr <= 0x04; addr++) {
+		write(addr, value);
+	}
+}
 #define READ_ATTEMPT_COUNT 5
 
 int DeviceDriver::read(long address) {
